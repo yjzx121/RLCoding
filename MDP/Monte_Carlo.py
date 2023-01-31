@@ -6,10 +6,12 @@ def sample(MDP, Pi, timestep_max, number):
     """采样函数， 策略Pi， 限制最长时间步timestep_max，总共采样序列数number"""
     S, A, P, R, gamma = MDP
     episodes = []
+
     for _ in range(number):
         episode = []
         timestep = 0
         s = S[np.random.randint(4)]  # 随机选择一个除s5以外的状态s作为起点
+
         # 当前状态为终止状态或者时间步太长时，一次采样结束
         while s != "s5" and timestep <= timestep_max:
             timestep += 1
@@ -36,9 +38,9 @@ def sample(MDP, Pi, timestep_max, number):
 
 
 episodes = sample(MDP, Pi_1, 20, 5)
-print("第一条序列\n", episodes[0])
-print("第二条序列\n", episodes[1])
-print("第五条序列\n", episodes[4])
+# print("第一条序列\n", episodes[0])
+# print("第二条序列\n", episodes[1])
+# print("第五条序列\n", episodes[4])
 
 
 # 对所有采样序列计算所有状态的价值
@@ -60,4 +62,4 @@ gamma = 0.5
 V = {"s1": 0, "s2": 0, "s3": 0, "s4": 0, "s5": 0}
 N = {"s1": 0, "s2": 0, "s3": 0, "s4": 0, "s5": 0}
 MC(episodes, V, N, gamma)
-print("使用蒙特卡洛方法计算MDP的状态价值为\n", V)
+# print("使用蒙特卡洛方法计算MDP的状态价值为\n", V)

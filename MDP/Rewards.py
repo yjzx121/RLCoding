@@ -29,7 +29,7 @@ def compute_return(start_index, chain, gamma):
 chain = [1, 2, 3, 6]
 start_index = 0
 G = compute_return(start_index, chain, gamma)
-print("根据本序列计算得到回报为：%s。" % G)
+# print("根据本序列计算得到回报为：%s。" % G)
 
 
 def compute(P, rewards, gamma, states_num):
@@ -40,7 +40,7 @@ def compute(P, rewards, gamma, states_num):
 
 
 V = compute(P, rewards, gamma, 6)
-print("MRP中每个状态价值分别为\n", V)
+# print("MRP中每个状态价值分别为\n", V)
 
 
 S = ["s1", "s2", "s3", "s4", "s5"]  # 状态集合
@@ -112,4 +112,4 @@ P_from_mdp_to_mrp = np.array(P_from_mdp_to_mrp)
 R_from_mdp_to_mrp = [-0.5, -1.5, -1.0, 5.5, 0]
 
 V = compute(P_from_mdp_to_mrp, R_from_mdp_to_mrp, gamma, 5)
-print("MDP中每个状态价值分别为\n", V)
+# print("MDP中每个状态价值分别为\n", V)
