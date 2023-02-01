@@ -1,5 +1,11 @@
-import copy
-import numpy as np
+def print_P(lst, ncol, nrow):
+    print("生成的P值：")
+
+    for i in range(nrow):
+        for j in range(ncol):
+            # 为了输出美观,保持输出6个字符
+            print(lst[j][i], end=' ')
+        print()
 
 
 class CliffWalkingEnv:
@@ -8,7 +14,8 @@ class CliffWalkingEnv:
         self.ncol = ncol  # 定义网格世界的列
         self.nrow = nrow  # 定义网格世界的行
         #  转移矩阵P[state][action] = [(p, next_state, reward, done)]包含下一个状态和奖励
-        self.p = self.createP()
+        self.P = self.createP()
+        print_P(self.P, self.ncol, self.nrow)
 
     def createP(self):
         # initailation
@@ -27,6 +34,7 @@ class CliffWalkingEnv:
                     # 其他位置
                     next_x = min(self.ncol - 1, max(0, j + change[a][0]))
                     next_y = min(self.nrow - 1, max(0, i + change[a][1]))
+
                     next_state = next_y * self.ncol + next_x
                     reward = -1
                     done = False
@@ -35,7 +43,7 @@ class CliffWalkingEnv:
                         done = True
                         if next_x != self.ncol - 1:     # 下一个位置在悬崖
                             reward = -100
-                    P[i * self.ncol + j][a] = [(i, next_state, reward, done)]
+                    P[i * self.ncol + j][a] = [(1, next_state, reward, done)]
 
         return P
 
