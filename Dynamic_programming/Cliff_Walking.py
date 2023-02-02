@@ -15,7 +15,7 @@ class CliffWalkingEnv:
         self.nrow = nrow  # 定义网格世界的行
         #  转移矩阵P[state][action] = [(p, next_state, reward, done)]包含下一个状态和奖励
         self.P = self.createP()
-        print_P(self.P, self.ncol, self.nrow)
+        # print_P(self.P, self.ncol, self.nrow)
 
     def createP(self):
         # initailation
