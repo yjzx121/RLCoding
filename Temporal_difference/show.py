@@ -1,4 +1,6 @@
-from test_sarsa import agent, env
+from test_sarsa import Sarsa_agent, env
+from test_muti_sarsa import MutiSarsa_agent
+from test_qlearning import QLearning_agent
 
 
 def print_agent(agent, env, action_meaning, disaster=[], end=[]):
@@ -18,5 +20,7 @@ def print_agent(agent, env, action_meaning, disaster=[], end=[]):
 
 
 action_meaning = ['^', 'v', '<', '>']
-print('Sarsa算法最终收敛得到的策略为：')
-print_agent(agent, env, action_meaning, list(range(37, 47)), [47])
+
+for agt in [Sarsa_agent, MutiSarsa_agent, QLearning_agent]:
+    print('Sarsa算法最终收敛得到的策略为：')
+    print_agent(Sarsa_agent, env, action_meaning, list(range(37, 47)), [47])
