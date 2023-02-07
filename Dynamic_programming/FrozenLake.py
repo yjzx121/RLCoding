@@ -14,8 +14,6 @@ env.render()                               # 环境渲染，通常是弹窗显�
 holes = set()
 ends = set()
 
-print_P(env.P, 4, 4)
-
 for s in env.P:
     for a in env.P[s]:
         for s_ in env.P[s][a]:
@@ -31,7 +29,7 @@ print("目标的索引:", ends)
 
 # 查看目标左边一格的状态转移信息
 for a in env.P[14]:
-    print(env.P[14][a])
+    env.step(env.action_space.sample())
 
 
 action_meaning = ['<', 'v', '>', '^']
@@ -40,5 +38,5 @@ gamma = 0.9
 agent = PolicyIteration(env, theta, gamma)
 agent.policy_iteration()
 print_agent(agent, action_meaning, [5, 7, 11, 12], [15])
-time.sleep(1000)
+# time.sleep(1000)
 
