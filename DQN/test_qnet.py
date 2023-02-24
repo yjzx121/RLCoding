@@ -4,8 +4,11 @@ import random
 import numpy as np
 from DeepQ_Network import ReplayBuffer, DQN
 from tqdm import tqdm
+import matplotlib.pyplot as plt
+import utils
 
 
+"""test dqn"""
 LR = 2e-3
 NUM_EPISODES = 500
 HIDDEN_DIM = 128
@@ -36,7 +39,7 @@ for i in range(10):
             done = False
             while not done:
                 action = agent.take_action(state)
-                next_state, reward, done, _, _ = env.step(action)
+                next_state, reward, done, _= env.step(action)
                 replay_buffer.add(state, action, reward, next_state, done)
                 state = next_state
                 episode_return += reward
@@ -60,4 +63,16 @@ for i in range(10):
             pbar.update(1)
 
 
+episodes_list = list(range(len(return_list)))
+plt.plot(episodes_list, return_list)
+plt.xlabel('Episodes')
+plt.ylabel('Returns')
+plt.title('DQN on {}'.format(env_name))
+plt.show()
 
+mv_return = utils.moving_average(return_list, 9)
+plt.plot(episodes_list, mv_return)
+plt.xlabel('Episodes')
+plt.ylabel('Returns')
+plt.title('DQN on {}'.format(env_name))
+plt.show()
