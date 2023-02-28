@@ -55,6 +55,7 @@ class State:
             res[shift] = self._prices.high[ofs]
             shift += 1
             res[shift] = self._prices.low[ofs]
+            shift += 1
             res[shift] = self._prices.close[ofs]
             shift += 1
             if self.volumes:
@@ -147,7 +148,7 @@ class StockEnv(gym.Env):
     @classmethod
     def from_dir(cls, data_dir, **kwargs):
         prices = {
-            file: data.load_relative(file),
+            file: data.load_relative(file)
             for file in data.price_files(data_dir)
         }
         return StockEnv(prices, **kwargs)

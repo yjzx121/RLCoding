@@ -5,7 +5,7 @@ from policy_iteration import PolicyIteration, print_agent
 
 
 # 创建环境
-env = gym.make("FrozenLake-v1", render_mode="human")
+env = gym.make("FrozenLake-v0")
 env = env.unwrapped                        # 解封装才能访问状态转移矩阵p
 env.reset()
 env.render()                               # 环境渲染，通常是弹窗显示或打印出可视化的环境
@@ -38,5 +38,5 @@ gamma = 0.9
 agent = PolicyIteration(env, theta, gamma)
 agent.policy_iteration()
 print_agent(agent, action_meaning, [5, 7, 11, 12], [15])
-# time.sleep(1000)
+time.sleep(1000)
 
