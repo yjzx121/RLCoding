@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from Stock_RL.lib import environ
+from lib import environ
 
 
 METRICS = (

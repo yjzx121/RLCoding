@@ -36,9 +36,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--cuda", help="Enable cuda", default=False, action="store_true")
     parser.add_argument("--data", default=STOCKS, help=f"Stocks file or dir, default={STOCKS}")
-    parser.add_argument("--year", type=int, help="Year to train on, overrides --data")
+    parser.add_argument("--year", type=int, default=2015, help="Year to train on, overrides --data")
     parser.add_argument("--val", default=VAL_STOCKS, help="Validation data, default=" + VAL_STOCKS)
-    parser.add_argument("-r", "--run", required=True, help="Run name")
+    parser.add_argument("-r", "--run", default="RUN", required=False, help="Run name")
     args = parser.parse_args()
     device = torch.device("cuda" if args.cuda else "cpu")
 
@@ -53,15 +53,11 @@ if __name__ == "__main__":
             stock_data = data.load_year_data(args.year)
         else:
             stock_data = {"YNDX": data.load_relative(data_path)}
-        env = environ.StocksEnv(
-            stock_data, bars_count=BARS_COUNT)
-        env_tst = environ.StocksEnv(
-            stock_data, bars_count=BARS_COUNT)
+        env = environ.StocksEnv(stock_data, bars_count=BARS_COUNT)
+        env_tst = environ.StocksEnv(stock_data, bars_count=BARS_COUNT)
     elif data_path.is_dir():
-        env = environ.StocksEnv.from_dir(
-            data_path, bars_count=BARS_COUNT)
-        env_tst = environ.StocksEnv.from_dir(
-            data_path, bars_count=BARS_COUNT)
+        env = environ.StocksEnv.from_dir(data_path, bars_count=BARS_COUNT)
+        env_tst = environ.StocksEnv.from_dir(data_path, bars_count=BARS_COUNT)
     else:
         raise RuntimeError("No data to train on")
 
@@ -69,18 +65,14 @@ if __name__ == "__main__":
     val_data = {"YNDX": data.load_relative(val_path)}
     env_val = environ.StocksEnv(val_data, bars_count=BARS_COUNT)
 
-    net = models.SimpleFFDQN(env.observation_space.shape[0],
-                             env.action_space.n).to(device)
+    net = models.SimpleFFDQN(env.observation_space.shape[0], env.action_space.n).to(device)
     tgt_net = ptan.agent.TargetNet(net)
 
     selector = ptan.actions.EpsilonGreedyActionSelector(EPS_START)
-    eps_tracker = ptan.actions.EpsilonTracker(
-        selector, EPS_START, EPS_FINAL, EPS_STEPS)
+    eps_tracker = ptan.actions.EpsilonTracker(selector, EPS_START, EPS_FINAL, EPS_STEPS)
     agent = ptan.agent.DQNAgent(net, selector, device=device)
-    exp_source = ptan.experience.ExperienceSourceFirstLast(
-        env, agent, GAMMA, steps_count=REWARD_STEPS)
-    buffer = ptan.experience.ExperienceReplayBuffer(
-        exp_source, REPLAY_SIZE)
+    exp_source = ptan.experience.ExperienceSourceFirstLast(env, agent, GAMMA, steps_count=REWARD_STEPS)
+    buffer = ptan.experience.ExperienceReplayBuffer(exp_source, REPLAY_SIZE)
     optimizer = optim.Adam(net.parameters(), lr=LEARNING_RATE)
 
     def process_batch(engine, batch):

@@ -38,7 +38,7 @@ if __name__ == "__main__":
     parser.add_argument("--data", default=STOCKS, help=f"Stocks file or dir, default={STOCKS}")
     parser.add_argument("--year", type=int, help="Year to train on, overrides --data")
     parser.add_argument("--val", default=VAL_STOCKS, help="Validation data, default=" + VAL_STOCKS)
-    parser.add_argument("-r", "--run", required=True, help="Run name")
+    parser.add_argument("-r", "--run", default="RUN", required=False, help="Run name")
     args = parser.parse_args()
     device = torch.device("cuda" if args.cuda else "cpu")
 

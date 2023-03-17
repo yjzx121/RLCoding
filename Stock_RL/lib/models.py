@@ -129,7 +129,7 @@ class DQNConv1DLarge(nn.Module):
             nn.Linear(512, action_n)
         )
 
-    def _get_conv_out(self, shape):
+    def  _get_conv_out(self, shape):
         o = self.conv(torch.zeros(1, *shape))
         return int(np.prod(o.size()))
 

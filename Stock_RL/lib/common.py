@@ -58,8 +58,7 @@ def calc_loss(batch, net, tgt_net, gamma, device="cpu"):
     return nn.MSELoss()(state_action_values, expected_state_action_values)
 
 
-def batch_generator(buffer: ptan.experience.ExperienceReplayBuffer,
-                    initial: int, batch_size: int):
+def batch_generator(buffer: ptan.experience.ExperienceReplayBuffer, initial: int, batch_size: int):
     buffer.populate(initial)
     while True:
         buffer.populate(1)
