@@ -69,20 +69,20 @@ class ActorCritic:
         self.critic_optimizer.step()                                    # 更新价值网络的参数
 
 
-actor_lr = 1e-3
-critic_lr = 1e-2
+ACTOR_LR = 1e-3
+CRITIC_LR = 1e-2
 num_episodes = 1000
-hidden_dim = 128
-gamma = 0.98
-device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+HIDDEN_DIM = 128
+GAMMA = 0.98
+DEVICE = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 env_name = 'CartPole-v0'
 env = gym.make(env_name)
 env.seed(0)
 torch.manual_seed(0)
-state_dim = env.observation_space.shape[0]
-action_dim = env.action_space.n
-agent = ActorCritic(state_dim, hidden_dim, action_dim, actor_lr, critic_lr, gamma, device)
+STATE_DIM = env.observation_space.shape[0]
+ACTION_DIM = env.action_space.n
+agent = ActorCritic(STATE_DIM, HIDDEN_DIM, ACTION_DIM, ACTOR_LR, CRITIC_LR, GAMMA, DEVICE)
 return_list = utils.train_on_policy_agent(env, agent, num_episodes)
 
 episodes_list = list(range(len(return_list)))
